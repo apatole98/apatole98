@@ -54,13 +54,36 @@ const CONFIG = {
     { role: "Earlier roles", company: "Aress Software · Eluminous Technologies · Mphasis", meta: "Prior experience" },
   ],
 
-  writing: {
-    title: "Samundar Chup Raha",
-    subtitle: "Kindle · Hinglish Mumbai crime thriller",
-    author: "by Anurag Patole",
-    description: "A Mumbai crime thriller written in Hinglish — available on Kindle.",
-    link: "#",
-  },
+  books: [
+    {
+      title: "Samundar Chup Raha",
+      subtitle: "Kindle · Hinglish Mumbai crime thriller",
+      author: "by Anurag Patole",
+      description: "A Mumbai crime thriller written in Hinglish — available on Kindle.",
+      link: "#",
+    },
+    {
+      title: "Wo Ruki Rahi",
+      subtitle: "Hindi Upanyaas",
+      author: "by Anurag Patole",
+      description: "",
+      link: "#",
+    },
+    {
+      title: "Swapnawanshi",
+      subtitle: "Ek Hindi Upanyaas",
+      author: "by Anurag Patole",
+      description: "",
+      link: "#",
+    },
+    {
+      title: "Agli Manzil Ki Taraf",
+      subtitle: "Hindi Upanyaas",
+      author: "by Anurag Patole",
+      description: "",
+      link: "#",
+    },
+  ],
 
   contact: {
     linkedin: "#",
@@ -155,16 +178,21 @@ function renderTimeline() {
 }
 
 function renderWriting() {
-  const el = document.getElementById("writingCard");
-  const w = CONFIG.writing;
-  el.innerHTML = `
-    <div class="writing-cover">${w.title}</div>
-    <div class="writing-body">
-      <h3>${w.title}</h3>
-      <p class="writing-meta">${w.subtitle} · ${w.author}</p>
-      <p>${w.description}</p>
-      <a class="btn btn-ghost" href="${w.link}" target="_blank" rel="noopener noreferrer">View on Amazon</a>
-    </div>`;
+  const el = document.getElementById("writingGrid");
+  el.innerHTML = CONFIG.books
+    .map(
+      (w) => `
+    <div class="writing-card glass-card reveal-up">
+      <div class="writing-cover">${w.title}</div>
+      <div class="writing-body">
+        <h3>${w.title}</h3>
+        <p class="writing-meta">${w.subtitle} · ${w.author}</p>
+        ${w.description ? `<p>${w.description}</p>` : ""}
+        <a class="btn btn-ghost" href="${w.link}" target="_blank" rel="noopener noreferrer">View on Amazon</a>
+      </div>
+    </div>`
+    )
+    .join("");
 }
 
 function renderContact() {

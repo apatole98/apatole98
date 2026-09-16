@@ -264,6 +264,7 @@ body.has-cursor a, body.has-cursor button{ cursor:none; }
 .timeline-meta{ color:var(--text-faint); font-size:.85rem; margin-top:2px; }
 
 /* ===== Writing ===== */
+.writing-grid{ display:flex; flex-direction:column; gap:24px; }
 .writing-card{
   padding:36px; display:flex; gap:28px; align-items:center; flex-wrap:wrap;
 }
