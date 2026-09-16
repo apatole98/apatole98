@@ -86,9 +86,9 @@ const CONFIG = {
   ],
 
   contact: {
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/anurag-r-98518aa2/",
     github: "https://github.com/apatole98",
-    email: "your-email@example.com",
+    email: "apatole98@gmail.com",
   },
 };
 
