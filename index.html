@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Anurag Patole — Infrastructure PM → AI Product Manager</title>
+<meta name="description" content="Anurag Patole manages enterprise cloud infrastructure by day and independently builds AI products by night. Explore mYsAathi.ai, Kumbh Acharya and PM Toolkit." />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Anurag Patole — Infrastructure PM → AI Product Manager" />
+<meta property="og:description" content="I manage cloud infrastructure by day and ship AI products by night. Explore mYsAathi.ai, Kumbh Acharya and PM Toolkit." />
+<meta property="og:site_name" content="Anurag Patole" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Anurag Patole — Infrastructure PM → AI Product Manager" />
+<meta name="twitter:description" content="I manage cloud infrastructure by day and ship AI products by night." />
+
+<!-- Favicon (emoji) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Noise overlay -->
+<div class="noise-overlay" aria-hidden="true"></div>
+
+<!-- Scroll progress bar -->
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<!-- Custom cursor (desktop only) -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- Loading screen -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-initials">AP</div>
+</div>
+
+<!-- Nav -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav-logo">AP</a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#experience">Experience</a>
+    <a href="#writing">Writing</a>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <canvas id="heroCanvas" class="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero-content">
+      <p class="hero-eyebrow reveal-fade">Infrastructure PM → AI Product Manager</p>
+      <h1 class="hero-title" id="heroTitle" aria-label="Anurag Patole">Anurag Patole</h1>
+      <p class="hero-tagline reveal-fade">I manage cloud infrastructure by day and ship AI products by night.</p>
+      <div class="hero-actions reveal-fade">
+        <a href="#products" class="btn btn-primary" data-scroll>View Projects</a>
+        <a href="#contact" class="btn btn-ghost" data-scroll>Contact</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span></span>
+      <p>Scroll</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section about" id="about">
+    <div class="section-inner">
+      <p class="section-tag reveal-up">About</p>
+      <h2 class="section-title reveal-up">From uptime SLAs to shipped AI products.</h2>
+      <div class="about-grid">
+        <div class="about-bio reveal-up">
+          <p>I lead infrastructure project management across smart city, power, BFSI and other regulated sectors — coordinating escalations, running root-cause analysis, and owning disaster recovery SOPs, risk registers and governance for enterprise cloud delivery.</p>
+          <p>Alongside that, I build and ship AI products end to end — product thinking, UX, and code. I'm currently deepening that shift with AI-in-PM coursework and a DevOps Architect Master's program, moving deliberately from Infrastructure PM toward AI Product Management.</p>
+        </div>
+        <div class="about-glass glass-card reveal-up">
+          <ul class="about-points">
+            <li><span>⚙️</span> Enterprise cloud delivery &amp; DR governance</li>
+            <li><span>🧭</span> Escalation management &amp; RCA</li>
+            <li><span>📋</span> Risk registers, SOPs, compliance docs</li>
+            <li><span>🤖</span> Independent AI product builder</li>
+            <li><span>🎓</span> AI-in-PM + DevOps Architect (in progress)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats" id="stats">
+    <div class="stats-grid" id="statsGrid"></div>
+  </section>
+
+  <!-- AI PRODUCTS -->
+  <section class="section products" id="products">
+    <div class="section-inner">
+      <p class="section-tag reveal-up">AI Products</p>
+      <h2 class="section-title reveal-up">Shipped, not slideware.</h2>
+    </div>
+    <div class="products-track-wrap" id="productsTrackWrap">
+      <div class="products-track" id="productsTrack"></div>
+    </div>
+  </section>
+
+  <!-- PM EXPERIENCE -->
+  <section class="section experience" id="experience">
+    <div class="section-inner">
+      <p class="section-tag reveal-up">PM Experience</p>
+      <h2 class="section-title reveal-up">Enterprise delivery, anonymized by design.</h2>
+      <div class="case-grid" id="caseGrid"></div>
+
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section class="section writing" id="writing">
+    <div class="section-inner">
+      <p class="section-tag reveal-up">Writing</p>
+      <h2 class="section-title reveal-up">Also — a novel.</h2>
+      <div class="writing-card glass-card reveal-up" id="writingCard"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact" id="contact">
+    <div class="section-inner contact-inner">
+      <p class="section-tag reveal-up">Contact</p>
+      <h2 class="section-title reveal-up">Let's talk infrastructure, AI, or both.</h2>
+      <div class="contact-actions reveal-up" id="contactActions"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>Built with AI, shipped by Anurag.</p>
+</footer>
+
+<!-- CDN libs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script src="js/scene.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
