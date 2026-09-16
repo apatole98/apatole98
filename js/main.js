@@ -210,13 +210,13 @@ function renderContact() {
 function runLoader() {
   const loader = document.getElementById("loader");
   const done = () => {
-    loader.style.transition = "opacity .5s ease, visibility .5s ease";
+    loader.style.transition = "opacity .4s ease, visibility .4s ease";
     loader.style.opacity = "0";
     loader.style.visibility = "hidden";
     document.body.classList.add("loaded");
     startHeroReveal();
   };
-  window.setTimeout(done, prefersReducedMotion ? 0 : 1200);
+  window.setTimeout(done, prefersReducedMotion ? 0 : 700);
 }
 
 /* ============================================================
@@ -260,12 +260,15 @@ function initCursor() {
    ============================================================ */
 function initScrollProgress() {
   const bar = document.getElementById("scrollProgress");
+  // When GSAP + ScrollTrigger are available, initHeroScrollLink() drives the
+  // hero orb with a scrubbed ScrollTrigger instead — avoid double-driving it.
+  const driveHero = typeof gsap === "undefined" || typeof ScrollTrigger === "undefined";
   function update() {
     const scrollTop = window.scrollY;
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const pct = max > 0 ? (scrollTop / max) * 100 : 0;
     bar.style.width = pct + "%";
-    if (window.HeroScene && window.HeroScene.setScrollProgress) {
+    if (driveHero && window.HeroScene && window.HeroScene.setScrollProgress) {
       const heroHeight = window.innerHeight;
       const t = Math.min(Math.max(scrollTop / heroHeight, 0), 1);
       window.HeroScene.setScrollProgress(t);
@@ -292,33 +295,123 @@ function initSmoothLinks() {
 }
 
 /* ============================================================
-   Hero reveal (split-text stagger)
+   Hero reveal — loader → orb intro → headline → tagline → buttons → chips
    ============================================================ */
 function startHeroReveal() {
+  const heroTitle = document.querySelector(".hero-title");
+  const chips = document.querySelectorAll(".hero-chip");
+
   if (typeof gsap === "undefined") {
     document.querySelectorAll(".reveal-fade, .reveal-up").forEach((el) => {
       el.style.opacity = "1";
       el.style.transform = "none";
     });
+    if (window.HeroScene && window.HeroScene.setIntro) window.HeroScene.setIntro(1);
+    if (heroTitle) heroTitle.classList.add("is-shimmering");
     return;
   }
-  const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
   if (prefersReducedMotion) {
     gsap.set(".hero-title .word > span, .reveal-fade", { opacity: 1, y: 0 });
+    if (window.HeroScene && window.HeroScene.setIntro) window.HeroScene.setIntro(1);
+    if (heroTitle) heroTitle.classList.add("is-shimmering");
     return;
   }
 
-  tl.fromTo(
-    ".hero-title .word > span",
-    { yPercent: 120, opacity: 0 },
-    { yPercent: 0, opacity: 1, duration: 1, stagger: 0.08 }
-  ).fromTo(
-    ".hero-eyebrow, .hero-tagline, .hero-actions",
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 },
-    "-=0.5"
+  const introOrb = { t: 0 };
+  const tl = gsap.timeline({
+    defaults: { ease: "power4.out" },
+    onComplete: () => heroTitle && heroTitle.classList.add("is-shimmering"),
+  });
+
+  tl.to(
+    introOrb,
+    {
+      t: 1,
+      duration: 1.3,
+      ease: "power3.out",
+      onUpdate: () => {
+        if (window.HeroScene && window.HeroScene.setIntro) window.HeroScene.setIntro(introOrb.t);
+      },
+    },
+    0
+  )
+    .fromTo(
+      ".hero-title .word > span",
+      { yPercent: 120, opacity: 0 },
+      { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.07 },
+      0.15
+    )
+    .fromTo(
+      ".hero-eyebrow, .hero-tagline, .hero-actions",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 },
+      "-=0.45"
+    )
+    .fromTo(chips, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.08 }, "-=0.3");
+}
+
+/* ============================================================
+   Magnetic buttons (desktop only)
+   ============================================================ */
+function initMagneticButtons() {
+  if (isTouch || prefersReducedMotion || typeof gsap === "undefined") return;
+  document.querySelectorAll("[data-magnetic]").forEach((btn) => {
+    btn.addEventListener("mousemove", (e) => {
+      const b = btn.getBoundingClientRect();
+      const relX = e.clientX - (b.left + b.width / 2);
+      const relY = e.clientY - (b.top + b.height / 2);
+      gsap.to(btn, { x: relX * 0.35, y: relY * 0.35, duration: 0.4, ease: "power2.out" });
+    });
+    btn.addEventListener("mouseleave", () => {
+      gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" });
+    });
+  });
+}
+
+/* ============================================================
+   Floating chip parallax (desktop only)
+   ============================================================ */
+function initChipParallax() {
+  if (isTouch || prefersReducedMotion) return;
+  const chips = document.querySelectorAll(".hero-chip");
+  if (!chips.length) return;
+  window.addEventListener(
+    "pointermove",
+    (e) => {
+      const nx = e.clientX / window.innerWidth - 0.5;
+      const ny = e.clientY / window.innerHeight - 0.5;
+      chips.forEach((chip) => {
+        const depth = parseFloat(chip.dataset.depth) || 0.5;
+        const x = nx * 34 * depth;
+        const y = ny * 24 * depth;
+        if (typeof gsap !== "undefined") {
+          gsap.to(chip, { x, y, duration: 0.7, ease: "power2.out", overwrite: "auto" });
+        }
+      });
+    },
+    { passive: true }
   );
+}
+
+/* ============================================================
+   Hero orb scroll linkage (GSAP ScrollTrigger, scrubbed)
+   ============================================================ */
+function initHeroScrollLink() {
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+  const hero = document.getElementById("hero");
+  if (!hero) return;
+  ScrollTrigger.create({
+    trigger: hero,
+    start: "top top",
+    end: "bottom top",
+    scrub: 0.6,
+    onUpdate: (self) => {
+      if (window.HeroScene && window.HeroScene.setScrollProgress) {
+        window.HeroScene.setScrollProgress(self.progress);
+      }
+    },
+  });
 }
 
 /* ============================================================
@@ -481,6 +574,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollReveals();
   initProductTilt();
   initProductsHorizontalScroll();
+  initMagneticButtons();
+  initChipParallax();
+  initHeroScrollLink();
 
   runLoader();
 });
